@@ -1,7 +1,7 @@
 # News-Front-Page-Scraper
 Web scraping the front pages of news sites.
 
-Webscraping project for Foxnews.com and cnn.com front pages
+Webscraping project for Foxnews.com and cnn.com front pages \n
 Scraper auto scrapes everyday at 9:00 am.
 Returns results in csv file. 
 
