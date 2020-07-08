@@ -40,7 +40,8 @@ def getHeadlines(containers):
         categories = ['/us/', '/weather/', '/tech/', '/health/', '/politics/', '/travel/',
                       '/opinions/', '/business/', '/entertainment/', '/investing/',
                       '/india/', '/success/', '/celebrities/', '/mark/', '/europe/',
-                      '/americas/', '/asia/', '/style/', '/uk/', '/cnn-underscored/', 'foodanddrink']
+                      '/americas/', '/asia/', '/style/', '/uk/', '/cnn-underscored/',
+                      '/world/', '/resources/', '/app-news-section/', '/tennis/', '/guide/']
 
         if 'bleacherreport' in url:
             category = 'sports'

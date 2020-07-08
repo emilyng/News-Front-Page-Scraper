@@ -1,28 +1,24 @@
 '''
-Simple Scraper of Fox News Headlines
 inspo credit: https://github.com/SethConnell/Fox-News-Web-Scraper
 '''
-#import requests
-import csv
-from datetime import datetime
+import requests
 from bs4 import BeautifulSoup
-#import urllib
+import csv
+import urllib
+from datetime import datetime
 
-#import time
+import time
 import schedule
 
 # import webdriver
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-DATA = []
+data = []
 
 
-def get_headlines(containers):
-    '''
-    Retrieves headline, access date, *publish data, url, category
-    '''
-    global DATA
+def getHeadlines(containers):
+    global data
     for article in containers:
         headline = article.getText()
         url = article.find('a').get('href')
@@ -43,19 +39,16 @@ def get_headlines(containers):
         else:
             video = False
 
-        data = {'headline': headline,
-                'category': category,
-                'access_date': access_date,
-                'video': video,
-                'url': url}
-        DATA.append(data)
+        d = {'headline': headline,
+             'category': category,
+             'access_date': access_date,
+             'video': video,
+             'url': url}
+        data.append(d)
 
 
-def scrape_fox():
-    '''
-    Scrape FOX News home page, returns soup object
-    '''
-    global DATA
+def scrapeFOX():
+    global data
     options = Options()
     options.add_argument("--headless")
 
@@ -70,26 +63,23 @@ def scrape_fox():
     scroll_bar_art = soup.find_all('article', {'class': 'article-ct'})
 
     containers = headers + sub_headers + scroll_bar_art
-    get_headlines(containers)
+    getHeadlines(containers)
 
 
 def write():
-    '''
-    Write all retrieved data into csv file
-    '''
-    global DATA
-    # write DATA into FOX_scrape.csv file
+    global data
+    # write data into FOX_scrape.csv file
     keys = ['headline', 'category', 'publish_date',
             'access_date', 'video', 'url']
 
-    with open('FOX_scrape.csv', 'a+', newline='') as out_file:
+    with open('FOX_scrape.csv', 'w', newline='') as out_file:
         dict_writer = csv.DictWriter(out_file, fieldnames=keys)
-        # dict_writer.writeheader()
-        dict_writer.writerows(DATA)
+        dict_writer.writeheader()
+        dict_writer.writerows(data)
 
 
-scrape_fox()
-write()
+# scrapeWebsites()
+# write()
 
-schedule.every(1).day.at('09:00').do(scrape_fox)
+schedule.every(1).day.at('09:00').do(scrapeFOX)
 schedule.every(1).day.at('09:00').do(write)
