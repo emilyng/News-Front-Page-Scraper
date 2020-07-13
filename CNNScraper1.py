@@ -26,7 +26,7 @@ def scrapeCNN():
     soup = BeautifulSoup(driver.page_source, 'lxml')
     containers = soup.find_all('h3', {'class': 'cd__headline'})
     getHeadlines(containers)
-
+    driver.close()
 
 def getHeadlines(containers):
     global data
@@ -84,12 +84,12 @@ def write():
     with open('CNN_scrape.csv', 'a+', newline='') as write_obj:
         # create writer object
         dict_writer = csv.DictWriter(write_obj, fieldnames=keys)
-        dict_writer.writeheader()
+        #dict_writer.writeheader()
         dict_writer.writerows(data)
 
+if '__name__' == '__main__':
+    scrapeCNN()
+    write()
 
-scrapeCNN()
-write()
-
-schedule.every(1).day.at('09:00').do(scrapeCNN)
-schedule.every(1).day.at('09:00').do(write)
+#schedule.every(1).day.at('09:00').do(scrapeCNN)
+#schedule.every(1).day.at('09:00').do(write)
